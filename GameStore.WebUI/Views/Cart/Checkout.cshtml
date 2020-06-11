@@ -1,0 +1,44 @@
+﻿@model GaameStore.Domain.Entities.ShippingDetails
+
+@{
+    ViewBag.Title = "GameStore: forma zamówienia";
+}
+
+<h2>Zamówić teraz</h2>
+<p>Proszę podać dane kontaktowe dla wysyłki</p>
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary();
+    <h3>Dane</h3>
+    <div class="form-group">
+        <label>Godność</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
+
+    <h3>Adres zamieszkania</h3>
+    foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        if (property.PropertyName != "Name" && property.PropertyName != "GiftWrap")
+        {
+            <div class="form-group">
+                <label>@(property.DisplayName ?? property.PropertyName)</label>
+                @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+            </div>
+        }
+    }
+
+    <h3>Opcje</h3>
+    <div class="checkbox">
+        <label>
+            @Html.EditorFor(x => x.GiftWrap)
+            Czy zapakować w formie prezentu?
+        </label>
+    </div>
+
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Zrobić zamówienie" />
+    </div>
+}
+
